@@ -27,11 +27,10 @@ if ($type == 'add') {
     $sql = "INSERT INTO `paddy`(`type`, `issuer`, `location`, `net_weight`, `empty_weight`, `quantity`, `load_quan`, `amount_bag`, `total_amount`, `vehicle_no`, `date`) VALUES ('$paddyType','$issuer','$location','$loadQuant','$emptyWeight','$netWeight','$perBag','$amountPerBag','$totalAmount','$vehicleNo','$timestamp')";
     if ($conn->query($sql) === TRUE) {
         $data=1;
-        return $data;
+        echo json_encode($data);
     } else {
         $data="Error: " . $sql . "<br>" . $conn->error;
-        return $data;
+        echo $data;
     }
 }
-return $data;
 ?>

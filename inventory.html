@@ -15,6 +15,29 @@
 </style>
 
 <body>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="assets/img/codeio.png" width="auto" height="30" alt="Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/jai/inventory.html">Inventory</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/jai/invoice.html">Invoice</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Accounts</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <form class="container">
         <div class="form-group row">
             <label for="paddy" class="col-sm-2 col-form-label">Paddy Type</label>
@@ -117,11 +140,9 @@
 </body>
 <script>
     $(document).ready(function () {
-
         $("#addBtn").click(function (event) {
             event.preventDefault();
             var formValid = true;
-
             $("input[required]").each(function () {
                 if ($.trim($(this).val()).length == 0) {
                     $(this).addClass("is-invalid");
@@ -169,11 +190,6 @@
             }
         });
 
-        // $("#addBtn").on('click', function (e) {
-        //     e.preventDefault();
-
-        // });
-
         function convert_load_quan() {
             var perBag = $("#perBag").val();
             var netWeight = $("#netWeight").val();
@@ -181,7 +197,7 @@
             var loadQuant = (netWeight - emptyWeight) / perBag;
             var beforeDecimal = Math.floor(loadQuant);
             var afterDecimal = Math.abs(loadQuant - beforeDecimal);
-            var deciCond = afterDecimal === 0.00 ? '' : afterDecimal.toFixed(2) + " Kgs ";
+            var deciCond = afterDecimal === 0.00 ? '' : parseInt(((afterDecimal.toFixed(2))*perBag),10) + " Kgs ";
             var loadQuant1 = beforeDecimal + " bag " + deciCond;
             $("#load").val($.isNumeric(loadQuant) ? loadQuant1 : 0);
             var amountPerBag = $("#amountPerBag").val();

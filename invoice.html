@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paddy Invoice</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<style>
+    .form-group {
+        margin: 17px 0px;
+    }
+</style>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="assets/img/codeio.png" width="auto" height="30" alt="Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/jai/inventory.html">Inventory</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/jai/invoice.html">Invoice</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Accounts</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <form class="container">
+        <div class="form-group row">
+            <label for="custName" class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="custName" id="custName" required>
+                <div class="invalid-feedback">
+                    Please enter a value
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="totalAmount" class="col-sm-2 col-form-label">Amount</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="totalAmount" id="totalAmount" readonly required>
+                <div class="invalid-feedback">
+                    Please enter a value
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="amountType" class="col-sm-2 col-form-label">Amount Type</label>
+            <div class="col-sm-10">
+                <select class="form-control" name="amountType" id="amountType">
+                    <option value="cheque">Cheque</option>
+                    <option value="cash">Cash</option>
+                </select>
+                <div class="invalid-feedback">
+                    Please enter a value
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="paddy" class="col-sm-2 col-form-label">Paddy Type</label>
+            <div class="col-sm-10">
+                <select class="form-control" name="paddy" id="paddy">
+                    <option value="gundu">Gundu Nel</option>
+                    <option value="mav">Mav Nel</option>
+                </select>
+                <div class="invalid-feedback">
+                    Please enter a value
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="date" class="col-sm-2 col-form-label">Date</label>
+            <div class="col-sm-10">
+                <input type="datetime" class="form-control" name="date" id="date" required>
+                <div class="invalid-feedback">
+                    Please enter a value
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="netWeight" class="col-sm-2 col-form-label">Net Weight quantity</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="netWeight" id="netWeight" required>
+                <div class="invalid-feedback">
+                    Please enter a value
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="emptyWeight" class="col-sm-2 col-form-label">Empty Weight quantity</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="emptyWeight" id="emptyWeight" required>
+                <div class="invalid-feedback">
+                    Please enter a value
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="perBag" class="col-sm-2 col-form-label">Quantity per bag</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="perBag" id="perBag" required>
+                <div class="invalid-feedback">
+                    Please enter a value
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="load" class="col-sm-2 col-form-label">Load quantity</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="load" id="load" readonly required>
+                <div class="invalid-feedback">
+                    Please enter a value
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="amountPerBag" class="col-sm-2 col-form-label">Amount per bag</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="amountPerBag" id="amountPerBag" required>
+                <div class="invalid-feedback">
+                    Please enter a value
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="totalAmount" class="col-sm-2 col-form-label">Total Amount</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="totalAmount" id="totalAmount" readonly required>
+                <div class="invalid-feedback">
+                    Please enter a value
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="vehicleNo" class="col-sm-2 col-form-label">Vehicle No</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="vehicleNo" id="vehicleNo" required>
+                <div class="invalid-feedback">
+                    Please enter a value
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <button class="btn btn-primary btn-lg btn-block" id="addBtn">Add to Inventory</button>
+        </div>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+</body>
+<script>
+    $(document).ready(function () {
+        $("#addBtn").click(function (event) {
+            event.preventDefault();
+            var formValid = true;
+            $("input[required]").each(function () {
+                if ($.trim($(this).val()).length == 0) {
+                    $(this).addClass("is-invalid");
+                    $(this).closest(".form-group").find(".invalid-feedback").show();
+                    formValid = false;
+                } else {
+                    $(this).removeClass("is-invalid");
+                    $(this).closest(".form-group").find(".invalid-feedback").hide();
+                }
+            });
+
+            if (formValid) {
+                var paddyType = $("#paddy").val();
+                var issuer = $("#custName").val();
+                var location = $("#city").val();
+                var loadQuant = $("#load").val();
+                var emptyWeight = $("#emptyWeight").val();
+                var netWeight = $("#netWeight").val();
+                var perBag = $("#perBag").val();
+                var amountPerBag = $("#amountPerBag").val();
+                var totalAmount = $("#totalAmount").val();
+                var vehicleNo = $("#vehicleNo").val();
+                var json_data = {
+                    "paddyType": paddyType,
+                    "issuer": issuer,
+                    "location": location,
+                    "loadQuant": loadQuant,
+                    "emptyWeight": emptyWeight,
+                    "netWeight": netWeight,
+                    "perBag": perBag,
+                    "amountPerBag": amountPerBag,
+                    "totalAmount": totalAmount,
+                    "vehicleNo": vehicleNo,
+                    "type": "add"
+                };
+                $.ajax({
+                    url: 'controller.php',
+                    type: 'POST',
+                    data: json_data,
+                    success: function (data) {
+                        const obj = JSON.parse(data);
+                        console.log(obj);
+                    }
+                });
+            }
+        });
+
+        function convert_load_quan() {
+            var perBag = $("#perBag").val();
+            var netWeight = $("#netWeight").val();
+            var emptyWeight = $("#emptyWeight").val();
+            var loadQuant = (netWeight - emptyWeight) / perBag;
+            var beforeDecimal = Math.floor(loadQuant);
+            var afterDecimal = Math.abs(loadQuant - beforeDecimal);
+            var deciCond = afterDecimal === 0.00 ? '' : parseInt(((afterDecimal.toFixed(2)) * perBag), 10) + " Kgs ";
+            var loadQuant1 = beforeDecimal + " bag " + deciCond;
+            $("#load").val($.isNumeric(loadQuant) ? loadQuant1 : 0);
+            var amountPerBag = $("#amountPerBag").val();
+            $("#totalAmount").val($.isNumeric(amountPerBag) ? parseInt((beforeDecimal + afterDecimal) * amountPerBag, 10) : 0);
+        };
+
+        $("#emptyWeight").on("change", function () {
+            convert_load_quan();
+        });
+
+        $("#netWeight").on("change", function () {
+            convert_load_quan();
+        });
+
+        $("#perBag").on("change", function () {
+            convert_load_quan();
+        });
+
+        $("#amountPerBag").on("change", function () {
+            convert_load_quan();
+        });
+    });
+</script>
+
+</html>
