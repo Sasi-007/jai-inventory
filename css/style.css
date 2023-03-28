@@ -1,0 +1,7 @@
+.form-group {
+    margin: 17px 0px;
+}
+
+select {
+    appearance: menulist !important;
+}

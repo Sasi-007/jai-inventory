@@ -7,14 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paddy Inventory</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
 </head>
-<style>
-    .form-group {
-        margin: 17px 0px;
-    }
-</style>
 
 <body>
     <nav class="navbar navbar-expand-md navbar-light bg-light">
@@ -28,10 +24,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/jai/">Inventory</a>
+                        <a class="nav-link" href="index.html">Inventory</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/jai/invoice.html">Invoice</a>
+                        <a class="nav-link" href="invoice.html">Invoice</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="bag.html">Gunny Bags</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Accounts</a>
@@ -101,7 +100,7 @@
         <div class="form-group row">
             <label for="load" class="col-sm-2 col-form-label">Load quantity</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="load" id="load" readonly required>
+                <input type="text" class="form-control" name="load" id="load" required>
                 <div class="invalid-feedback">
                     Please enter a value
                 </div>
@@ -119,7 +118,9 @@
         <div class="form-group row">
             <label for="totalAmount" class="col-sm-2 col-form-label">Total Amount</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="totalAmount" id="totalAmount" readonly required>
+                <input type="text" class="form-control" name="totalAmount" id="totalAmount" required>
+                <div id="amountText" style="padding: 0px 10px;font-size: 14px;font-weight: 500;color: #758b89;">
+                </div>
                 <div class="invalid-feedback">
                     Please enter a value
                 </div>
@@ -186,11 +187,71 @@
                     data: json_data,
                     success: function (data) {
                         const obj = JSON.parse(data);
-                        console.log(obj);
+                        $("#custName").val("");
+                        $("#city").val("");
+                        $("#load").val("");
+                        $("#emptyWeight").val("");
+                        $("#netWeight").val("");
+                        $("#perBag").val("");
+                        $("#amountPerBag").val("");
+                        $("#totalAmount").val("");
+                        $("#vehicleNo").val("");
+                        window.location.href = "invoice.html";
                     }
                 });
             }
         });
+
+        function numberToText(num) {
+            var ones = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+            var tens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
+            var teens = ["ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
+
+            if (num == 0) {
+                return "zero";
+            } else if (num < 0) {
+                return "minus " + numberToText(Math.abs(num));
+            }
+
+            var text = "";
+
+            if (num >= 10000000) {
+                text += numberToText(Math.floor(num / 10000000)) + " crore ";
+                num %= 10000000;
+            }
+
+            if (num >= 100000) {
+                text += numberToText(Math.floor(num / 100000)) + " lakh ";
+                num %= 100000;
+            }
+
+            if (num >= 1000) {
+                text += numberToText(Math.floor(num / 1000)) + " thousand ";
+                num %= 1000;
+            }
+
+            if (num >= 100) {
+                text += ones[Math.floor(num / 100)] + " hundred ";
+                num %= 100;
+            }
+
+            if (num >= 10 && num <= 19) {
+                text += teens[num - 10];
+                num = 0;
+            } else if (num >= 20 || num == 0) {
+                text += tens[Math.floor(num / 10)];
+                num %= 10;
+                if (num != 0) {
+                    text += "-";
+                }
+            }
+
+            if (num > 0) {
+                text += ones[num];
+            }
+
+            return text.trim().charAt(0).toUpperCase() + text.slice(1);
+        }
 
         function convert_load_quan() {
             var perBag = $("#perBag").val();
@@ -199,11 +260,13 @@
             var loadQuant = (netWeight - emptyWeight) / perBag;
             var beforeDecimal = Math.floor(loadQuant);
             var afterDecimal = Math.abs(loadQuant - beforeDecimal);
-            var deciCond = afterDecimal === 0.00 ? '' : parseInt(((afterDecimal.toFixed(2))*perBag),10) + " Kgs ";
+            var deciCond = afterDecimal === 0.00 ? '' : parseInt(((afterDecimal.toFixed(2)) * perBag), 10) + " Kgs ";
             var loadQuant1 = beforeDecimal + " bag " + deciCond;
             $("#load").val($.isNumeric(loadQuant) ? loadQuant1 : 0);
             var amountPerBag = $("#amountPerBag").val();
-            $("#totalAmount").val($.isNumeric(amountPerBag) ? parseInt((beforeDecimal + afterDecimal) * amountPerBag, 10) : 0);
+            var totalAmountText = $.isNumeric(amountPerBag) ? parseInt((beforeDecimal + afterDecimal) * amountPerBag, 10) : 0;
+            $("#totalAmount").val(totalAmountText);
+            $("#amountText").text(numberToText(totalAmountText));
         };
 
         $("#emptyWeight").on("change", function () {

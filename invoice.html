@@ -7,12 +7,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paddy Invoice</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
 </head>
 <style>
-    .form-group {
-        margin: 17px 0px;
+    ul.suggestion-list {
+        position: absolute;
+        left: 0;
+        z-index: 999;
+        list-style-type: none;
+        display: none;
+        background-color: #fff;
+        border: 1px solid #dadce0;
+        border-top: none;
+        border-radius: 0 0 8px 8px;
+        box-shadow: 0 4px 4px -4px rgba(0, 0, 0, .2),
+            0 0 4px -4px rgba(0, 0, 0, .2),
+            2px 0 4px -4px rgba(0, 0, 0, .2),
+            -2px 0 4px -4px rgba(0, 0, 0, .2);
+        max-height: 240px;
+        overflow-y: auto;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        box-shadow: 0px 4px 0px 0.25rem rgba(13, 110, 253, .25);
+    }
+
+    .suggestion-box {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .text-box {
+        display: block;
+        width: 100%;
+        border: 1px solid #dadce0;
+        border-radius: 8px;
+        outline: none;
+        box-shadow: none;
+    }
+
+    .suggestion-list li {
+        padding: 8px 8px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .suggestion-list li:hover,
+    .suggestion-list .active {
+        background-color: #eee;
+    }
+
+    .nav-item a:active {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .suggestion-list li .left {
+        text-align: left;
+    }
+
+    .suggestion-list li .right {
+        text-align: right;
     }
 </style>
 
@@ -22,16 +81,19 @@
             <a class="navbar-brand" href="#">
                 <img src="assets/img/codeio.png" width="auto" height="30" alt="Logo">
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="index.html">Inventory</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="invoice.html">Invoice</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="bag.html">Gunny Bags</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Accounts</a>
@@ -44,7 +106,12 @@
         <div class="form-group row">
             <label for="custName" class="col-sm-2 col-form-label">Name</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="custName" id="custName" required>
+                <div class="suggestion-box">
+                    <input type="text" class="form-control text-box" name="custName" id="custName" required
+                        autocomplete="off">
+                    <ul class="suggestion-list">
+                    </ul>
+                </div>
                 <div class="invalid-feedback">
                     Please enter a value
                 </div>
@@ -53,7 +120,7 @@
         <div class="form-group row">
             <label for="totalAmount" class="col-sm-2 col-form-label">Amount</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="totalAmount" id="totalAmount" readonly required>
+                <input type="text" class="form-control" name="totalAmount" id="totalAmount" required>
                 <div class="invalid-feedback">
                     Please enter a value
                 </div>
@@ -86,70 +153,34 @@
         <div class="form-group row">
             <label for="date" class="col-sm-2 col-form-label">Date</label>
             <div class="col-sm-10">
-                <input type="datetime" class="form-control" name="date" id="date" required>
+                <input type="datetime-local" class="form-control" name="date" id="date" required>
                 <div class="invalid-feedback">
                     Please enter a value
                 </div>
             </div>
         </div>
         <div class="form-group row">
-            <label for="netWeight" class="col-sm-2 col-form-label">Net Weight quantity</label>
+            <label for="balance" class="col-sm-2 col-form-label">Balance</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="netWeight" id="netWeight" required>
+                <input type="text" class="form-control" name="balance" id="balance" required>
                 <div class="invalid-feedback">
                     Please enter a value
                 </div>
             </div>
         </div>
         <div class="form-group row">
-            <label for="emptyWeight" class="col-sm-2 col-form-label">Empty Weight quantity</label>
+            <label for="unloadChar" class="col-sm-2 col-form-label">Unloading charges</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="emptyWeight" id="emptyWeight" required>
+                <input type="text" class="form-control" name="unloadChar" id="unloadChar" required>
                 <div class="invalid-feedback">
                     Please enter a value
                 </div>
             </div>
         </div>
         <div class="form-group row">
-            <label for="perBag" class="col-sm-2 col-form-label">Quantity per bag</label>
+            <label for="lorryChar" class="col-sm-2 col-form-label">Lorry Charges</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="perBag" id="perBag" required>
-                <div class="invalid-feedback">
-                    Please enter a value
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="load" class="col-sm-2 col-form-label">Load quantity</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" name="load" id="load" readonly required>
-                <div class="invalid-feedback">
-                    Please enter a value
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="amountPerBag" class="col-sm-2 col-form-label">Amount per bag</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" name="amountPerBag" id="amountPerBag" required>
-                <div class="invalid-feedback">
-                    Please enter a value
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="totalAmount" class="col-sm-2 col-form-label">Total Amount</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" name="totalAmount" id="totalAmount" readonly required>
-                <div class="invalid-feedback">
-                    Please enter a value
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="vehicleNo" class="col-sm-2 col-form-label">Vehicle No</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" name="vehicleNo" id="vehicleNo" required>
+                <input type="text" class="form-control" name="lorryChar" id="lorryChar" required>
                 <div class="invalid-feedback">
                     Please enter a value
                 </div>
@@ -158,11 +189,129 @@
         <div class="form-group row">
             <button class="btn btn-primary btn-lg btn-block" id="addBtn">Add to Inventory</button>
         </div>
-        <script src="js/jquery.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+    </form>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- jQuery library -->
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+
+    <!-- Popper.js library -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script> -->
+
+    <!-- Bootstrap JavaScript library -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script> -->
+
 </body>
 <script>
     $(document).ready(function () {
+
+        var originalCSS = {
+            'border-bottom-left-radius': '8px',
+            'border-bottom-right-radius': '8px',
+            'border-bottom': '1px solid #dadce0'
+        };
+        $('.text-box').on('input', function () {
+            var inputValue = $(this).val().toLowerCase();
+            if (inputValue.length > 0) {
+                $('.suggestion-list li').filter(function () {
+                    return $(this).text().toLowerCase().indexOf(inputValue) === -1;
+                }).hide();
+                $('.suggestion-list li').filter(function () {
+                    return $(this).text().toLowerCase().indexOf(inputValue) !== -1;
+                }).show();
+                $('.suggestion-list').show();
+                $('.text-box').css({
+                    'border-bottom-left-radius': 0,
+                    'border-bottom-right-radius': 0,
+                    'border-bottom': 0
+                });
+            } else {
+                $('.suggestion-list').hide();
+                $('.text-box').css(originalCSS);
+            }
+        });
+
+        $('.suggestion-list').on('click', 'li', function () {
+            var selectedValue = $(this).text();
+            $('.text-box').val(selectedValue);
+            $('.suggestion-list').hide();
+            $('.text-box').css(originalCSS);
+        });
+
+        $(document).on('click', function (event) {
+            if (!$(event.target).closest('.suggestion-box').length) {
+                $('.suggestion-list').hide();
+                $('.text-box').css(originalCSS);
+            }
+        });
+
+        $(document).on('keyup', function (event) {
+            if (event.keyCode === 13) { // Enter key
+                var $active = $('.suggestion-list .active');
+                if ($active.length > 0) {
+                    var value = $active.text();
+                    $('.text-box').val(value);
+                    $('.suggestion-list').hide();
+                    $('.text-box').css(originalCSS);
+                }
+            } else {
+                var $active = $('.suggestion-list .active');
+                var $next;
+
+                switch (event.keyCode) {
+                    case 38: // up arrow
+                        $next = $active.prev();
+                        break;
+                    case 40: // down arrow
+                        $next = $active.next();
+                        break;
+                }
+
+                if ($next && $next.length > 0) {
+                    $active.removeClass('active');
+                    $next.addClass('active');
+                }
+            }
+        });
+
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1;
+        var day = now.getDate();
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+        var dateTime = year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2) + 'T' + ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) + ':' + ('0' + seconds).slice(-2);
+        $('#date').val(dateTime);
+
+        $('#custName').keyup(function () {
+            var query = $(this).val();
+            var json_data = {
+                "query": query,
+                "type": "invoice"
+            };
+            if (query != '') {
+                $.ajax({
+                    url: 'controller.php',
+                    method: 'POST',
+                    data: json_data,
+                    success: function (data) {
+                        const obj = JSON.parse(data);
+                        var txt = "";
+                        $.each(obj, function (i, item) {
+                            issuer = item.issuer;
+                            total_amount = item.total_amount;
+                            locate = item.locate;
+                            txt += i == 0 ? "<span class='left'><li class='active'>" + issuer.toUpperCase() + "</span><span class='right'>" + locate + "</span></li>" : "";
+                            txt += i != 0 ? "<span class='left'><li>" + issuer.toUpperCase() + "</span><span class='right'>" + locate + "</span></li>" : "";
+                        });
+                        $(".suggestion-list").html(txt);
+                    }
+                });
+            }
+        });
+
         $("#addBtn").click(function (event) {
             event.preventDefault();
             var formValid = true;
@@ -178,29 +327,26 @@
             });
 
             if (formValid) {
-                var paddyType = $("#paddy").val();
                 var issuer = $("#custName").val();
-                var location = $("#city").val();
-                var loadQuant = $("#load").val();
-                var emptyWeight = $("#emptyWeight").val();
-                var netWeight = $("#netWeight").val();
-                var perBag = $("#perBag").val();
-                var amountPerBag = $("#amountPerBag").val();
                 var totalAmount = $("#totalAmount").val();
-                var vehicleNo = $("#vehicleNo").val();
+                var amountType = $("#amountType").val();
+                var paddy = $("#paddy").val();
+                var date = $("#date").val();
+                var balance = $("#balance").val();
+                var unloadChar = $("#unloadChar").val();
+                var lorryChar = $("#lorryChar").val();
                 var json_data = {
-                    "paddyType": paddyType,
                     "issuer": issuer,
-                    "location": location,
-                    "loadQuant": loadQuant,
-                    "emptyWeight": emptyWeight,
-                    "netWeight": netWeight,
-                    "perBag": perBag,
-                    "amountPerBag": amountPerBag,
                     "totalAmount": totalAmount,
-                    "vehicleNo": vehicleNo,
-                    "type": "add"
+                    "amountType": amountType,
+                    "paddy": paddy,
+                    "date": date,
+                    "balance": balance,
+                    "unloadChar": unloadChar,
+                    "lorryChar": lorryChar,
+                    "type": "add_invoice"
                 };
+                console.log(json_data);
                 $.ajax({
                     url: 'controller.php',
                     type: 'POST',
@@ -211,36 +357,6 @@
                     }
                 });
             }
-        });
-
-        function convert_load_quan() {
-            var perBag = $("#perBag").val();
-            var netWeight = $("#netWeight").val();
-            var emptyWeight = $("#emptyWeight").val();
-            var loadQuant = (netWeight - emptyWeight) / perBag;
-            var beforeDecimal = Math.floor(loadQuant);
-            var afterDecimal = Math.abs(loadQuant - beforeDecimal);
-            var deciCond = afterDecimal === 0.00 ? '' : parseInt(((afterDecimal.toFixed(2)) * perBag), 10) + " Kgs ";
-            var loadQuant1 = beforeDecimal + " bag " + deciCond;
-            $("#load").val($.isNumeric(loadQuant) ? loadQuant1 : 0);
-            var amountPerBag = $("#amountPerBag").val();
-            $("#totalAmount").val($.isNumeric(amountPerBag) ? parseInt((beforeDecimal + afterDecimal) * amountPerBag, 10) : 0);
-        };
-
-        $("#emptyWeight").on("change", function () {
-            convert_load_quan();
-        });
-
-        $("#netWeight").on("change", function () {
-            convert_load_quan();
-        });
-
-        $("#perBag").on("change", function () {
-            convert_load_quan();
-        });
-
-        $("#amountPerBag").on("change", function () {
-            convert_load_quan();
         });
     });
 </script>
