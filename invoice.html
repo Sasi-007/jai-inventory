@@ -53,7 +53,9 @@
         padding: 8px 8px;
         cursor: pointer;
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
     }
 
     .suggestion-list li:hover,
@@ -66,11 +68,30 @@
         color: #fff;
     }
 
-    .suggestion-list li .left {
+    .container-list {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .text-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .left-text,
+    .right-text {
+        width: 45%;
+        box-sizing: border-box;
+    }
+
+    .left-text {
         text-align: left;
     }
 
-    .suggestion-list li .right {
+    .right-text {
         text-align: right;
     }
 </style>
@@ -78,7 +99,7 @@
 <body>
     <nav class="navbar navbar-expand-md navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="index.html">
                 <img src="assets/img/codeio.png" width="auto" height="30" alt="Logo">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarNav">
@@ -211,6 +232,17 @@
             'border-bottom-right-radius': '8px',
             'border-bottom': '1px solid #dadce0'
         };
+
+        function capitalText(text) {
+            var words = text.split(' ');
+            var capitalizedWords = [];
+            for (var i = 0; i < words.length; i++) {
+                capitalizedWords.push(words[i].charAt(0).toUpperCase() + words[i].slice(1));
+            }
+            var capitalizedText = capitalizedWords.join(' ');
+            return capitalizedText;
+        }
+
         $('.text-box').on('input', function () {
             var inputValue = $(this).val().toLowerCase();
             if (inputValue.length > 0) {
@@ -233,8 +265,8 @@
         });
 
         $('.suggestion-list').on('click', 'li', function () {
-            var selectedValue = $(this).text();
-            $('.text-box').val(selectedValue);
+            var selectedValue = $(this).find('.left-text').text();
+            $('#custName').val(selectedValue);
             $('.suggestion-list').hide();
             $('.text-box').css(originalCSS);
         });
@@ -248,7 +280,7 @@
 
         $(document).on('keyup', function (event) {
             if (event.keyCode === 13) { // Enter key
-                var $active = $('.suggestion-list .active');
+                var $active = $('.suggestion-list .active .left-text');
                 if ($active.length > 0) {
                     var value = $active.text();
                     $('.text-box').val(value);
@@ -274,6 +306,45 @@
                 }
             }
         });
+
+        function formatRupees(number) {
+            if (isNaN(number)) {
+                return "Invalid input";
+            }
+
+            var isNegative = number < 0;
+            number = Math.abs(number);
+
+            var roundedNumber = Math.round(number * 100) / 100; // round to 2 decimal places
+            var str = roundedNumber.toString().replace(/[^0-9.]/g, ""); // remove non-numeric and non-period characters
+            var parts = str.split(".");
+            var integerPart = parts[0];
+            var decimalPart = parts.length > 1 ? "." + parts[1] : "";
+            var formattedInteger = "";
+
+            if (integerPart.length > 3) {
+                var lastThreeDigits = integerPart % 1000;
+                integerPart = Math.floor(integerPart / 1000).toString();
+                lastThreeDigits = "," + lastThreeDigits;
+                // console.log(lastThreeDigits);
+                for (var i = integerPart.length - 1, j = 0; i >= 0; i--, j++) {
+                    if (j > 0 && j % 2 === 0) {
+                        formattedInteger = "," + formattedInteger;
+                    }
+                    formattedInteger = integerPart[i] + formattedInteger;
+                }
+                formattedInteger = formattedInteger + "" + lastThreeDigits;
+            } else {
+                formattedInteger = integerPart;
+            }
+
+            if (isNegative) {
+                formattedInteger = "-" + formattedInteger;
+            }
+
+            rupee = "₹" + formattedInteger + decimalPart;
+            return rupee;
+        }
 
         var now = new Date();
         var year = now.getFullYear();
@@ -303,8 +374,8 @@
                             issuer = item.issuer;
                             total_amount = item.total_amount;
                             locate = item.locate;
-                            txt += i == 0 ? "<span class='left'><li class='active'>" + issuer.toUpperCase() + "</span><span class='right'>" + locate + "</span></li>" : "";
-                            txt += i != 0 ? "<span class='left'><li>" + issuer.toUpperCase() + "</span><span class='right'>" + locate + "</span></li>" : "";
+                            txt += i == 0 ? "<li class='active'><div class='container-list'><div class='text-container'><div class='left-text'>" + capitalText(issuer) + "</div><div class='right-text'>" + locate.toUpperCase() + "</div></div></div><div class='pincode'><span style='color: #a19791'>Bal: </span>"+formatRupees(total_amount) + "</div></li>" : "";
+                            txt += i == 0 ? "<li><div class='container-list'><div class='text-container'><div class='left-text'>" + capitalText(issuer) + "</div><div class='right-text'>" + locate.toUpperCase() + "</div></div></div><div class='pincode'><span style='color: #a19791'>Bal: </span>"+formatRupees(total_amount) + "</div></li>" : "";
                         });
                         $(".suggestion-list").html(txt);
                     }
